@@ -1,0 +1,69 @@
+#!/usr/bin/env ruby
+
+require 'find'
+require 'optparse'
+
+require 'rubygems'
+require 'cowl'
+
+def main
+  ignores = DEFAULT_IGNORES
+
+  filenames = ['.']
+
+  max_width = DEFAULT_MAX_WIDTH
+
+  option = OptionParser.new do |option|
+    option.banner = 'Usage: cowl [options] [<files>]'
+
+    option.on('-i', '--ignore pattern', 'Ignore file names matching Ruby regex pattern') do |pattern|
+      ignores << pattern
+    end
+
+    option.on('-w=', '--max-width', 'Maximum column width (default: 80 characters). Must be non-negative.') do |width|
+      max_width = width.to_i
+
+      if max_width <= 0 then
+        puts option
+        exit
+      end
+    end
+
+    option.on('-h', '--help', 'Print usage info') do
+      puts option
+      exit
+    end
+
+    option.on('-v', '--version', 'Print version info') do
+      puts "enlint #{Cowl::VERSION}"
+      exit
+    end
+  end
+
+  option.parse!
+
+  filenames = ARGV unless ARGV.empty?
+
+  recursive_filenames = []
+
+  filenames.each do |f|
+    if File.directory? f
+      recursive_filenames = recursive_filenames.concat(recursive_list(f, ignores))
+    else
+      recursive_filenames << f
+    end
+  end
+
+  recursive_filenames.each { |f| check(f, max_width) }
+end
+
+begin
+  main
+# User may quit enlint before completion.
+rescue Interrupt
+  nil
+# enlint may be piped to another program (e.g. `less`),
+# which is quit before enlint completes.
+rescue Errno::EPIPE, Errno::EMFILE
+  nil
+end
