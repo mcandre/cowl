@@ -1,7 +1,7 @@
 Given(/^the program has finished$/) do
   # Test files are generated using iconv.
   @cucumber = `cowl examples/`
-  @cucumber_super_wide = `cowl -w 200 examples/`
+  @cucumber_wider = `cowl -w 106 examples/`
 end
 
 Then(/^the output is correct for each test$/) do
@@ -11,6 +11,6 @@ Then(/^the output is correct for each test$/) do
 
   expect(lines[0]).to match(%r(^examples/hello.bf\:[0-9]+\:.+$))
 
-  lines2 = @cucumber_super_wide.split("\n")
+  lines2 = @cucumber_wider.split("\n")
   expect(lines2.length).to eq(0)
 end
