@@ -26,6 +26,9 @@ examples/hello.bf:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++
 
 $ wc -L examples/hello.bf
 106 examples/hello.bf
+
+$ cowl -w 106 examples/
+$
 ```
 
 # REQUIREMENTS
