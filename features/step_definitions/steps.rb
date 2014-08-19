@@ -16,7 +16,7 @@ Then(/^the output is correct for each test$/) do
 
   cucumber_wider_lines = @cucumber_wider.split("\n")
   expect(cucumber_wider_lines.length).to eq(17)
-  cucumber_wider_lines.each { |line| expect(line).to match(%r(^examples/books/romeo-and-juliet-unwrapped.txt\:[0-9]+\:.+$)) }
+  cucumber_wider_lines.each { |line| expect(line).to match(%r(^examples/unwrapped-books/romeo-and-juliet.txt\:[0-9]+\:.+$)) }
 
   cucumber_unwrapped_lines = @cucumber_unwrapped.split("\n")
   expect(cucumber_unwrapped_lines.length).to eq(0)
