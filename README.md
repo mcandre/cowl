@@ -16,7 +16,7 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 
 * Recursive file search by default
 * Optional ignore patterns
-* Configuration via per-project and per-user dotfiles
+* Configuration via per-project and per-user [dotfiles](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md#Dotfiles)
 * Install via a standard programming language package manager
 
 # EXAMPLE
@@ -56,7 +56,7 @@ $ gem install cowl
 
 # CONFIGURE
 
-See [CONFIGURATION.md](https://github.com/mcandre/cowl/blob/master/CONFIGURATION.md) for details.
+See [CONFIGURE.md](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md) for details.
 
 # LICENSE
 

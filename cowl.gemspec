@@ -14,7 +14,7 @@ Gem::Specification.new { |s|
 
   s.executables = ['cowl']
 
-  s.files = Dir['lib/*.rb'] + ['LICENSE.md']
+  s.files = Dir['lib/*.rb'] + Dir['*.md']
   s.homepage = 'https://github.com/mcandre/cowl'
 
   s.add_dependency 'ptools', '~> 1.2'
