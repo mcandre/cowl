@@ -6,7 +6,8 @@ require 'optparse'
 require 'yaml'
 require 'cowl'
 
-CONFIGURATION_FILENAME = '.cowl.yml'
+IGNORE_FILENAME = '.cowlignore'
+CONFIGURATION_FILENAME = '.cowlrc.yml'
 
 def main
   ignores = DEFAULT_IGNORES
@@ -53,27 +54,43 @@ def main
 
   configuration_dotfile = DEFAULT_CONFIGURATION
 
-  recursive_filenames.each { |f|
+  recursive_filenames.each do |f|
     dir = File.expand_path("..", f)
 
     parent_of_home = File.expand_path("..", ENV["HOME"])
 
     while dir != parent_of_home
-      config_file = dir + File::SEPARATOR + CONFIGURATION_FILENAME
+      ignore_file = dir + File::SEPARATOR + IGNORE_FILENAME
 
-      if File.exist?(config_file) then
-        configuration_dotfile = YAML.load_file(config_file)
-        break
-      else
-        dir = File.expand_path("..", dir)
+      if File.exist?(ignore_file) then
+        ignores.concat(open(ignore_file).read.split("\n"))
       end
+
+      dir = File.expand_path("..", dir)
     end
 
-    # Command line flags override dotfile settings
-    configuration = configuration_dotfile.merge(configuration_flags)
+    if ignores.none? { |ignore| f =~ %r(#{ignore}) } then
+      dir = File.expand_path("..", f)
 
-    check(f, configuration)
-  }
+      parent_of_home = File.expand_path("..", ENV["HOME"])
+
+      while dir != parent_of_home
+        config_file = dir + File::SEPARATOR + CONFIGURATION_FILENAME
+
+        if File.exist?(config_file) then
+          configuration_dotfile = YAML.load_file(config_file)
+          break
+        else
+          dir = File.expand_path("..", dir)
+        end
+      end
+
+      # Command line flags override dotfile settings
+      configuration = configuration_dotfile.merge(configuration_flags)
+
+      check(f, configuration)
+    end
+  end
 end
 
 begin
@@ -81,6 +98,9 @@ begin
 # User may quit before completion.
 rescue Interrupt
   nil
+# Bad regex
+rescue RegexpError => e
+  puts e
 # This program may be piped to another program (e.g. `less`),
 # which is quit before this program completes.
 rescue Errno::EPIPE, Errno::EMFILE

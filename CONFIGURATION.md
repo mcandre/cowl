@@ -2,9 +2,9 @@
 
 Cowl offers multiple ways to resolve preferences:
 
-1. Command-line flags (`cowl -w`)
-2. Dotfiles (`.cowl.yml`)
-3. Built-in defaults (`DEFAULT_MAX_WIDTH`)
+1. Command-line flags (`cowl -i`, `cowl -w`)
+2. Dotfiles (`.cowlignore`, `.cowlrc.yml`)
+3. Built-in defaults (`DEFAULT_IGNORES`, `DEFAULT_MAX_WIDTH`)
 
 Any command-line flags that are present override the same settings in dotfiles and built-in defaults.
 
@@ -23,18 +23,27 @@ Usage: cowl [options] [<files>]
 
 # Dotfiles
 
-Cowl automatically applies any `.cowl.yml` configuration files in the same directory as a file being scanned, or a parent directory (`../.cowl.yml`), up to `$HOME/.cowl.yml`, if any such files exist.
+Cowl automatically applies any `.cowlignore` and/or `.cowlrc.yml` configuration files in the same directory as a file being scanned, or a parent directory (`../.cowlignore`, `../.cowlrc.yml`), up to `$HOME/.cowlignore`, `$HOME/.cowlrc.yml`, if any such files exist.
+
+## `.cowlignore`
 
 Samples:
 
-* [cowl/.cowl.yml](https://github.com/mcandre/cowl/blob/master/.cowl.yml)
-* [unwrapped-books/.cowl.yml](https://github.com/mcandre/cowl/blob/master/examples/unwrapped-books/.cowl.yml)
+* [cowl/.cowlignore](https://github.com/mcandre/cowl/blob/master/.cowlignore)
+* [examples/.cowlignore](https://github.com/mcandre/cowl/blob/master/examples/.cowlignore)
 
-The following (very short) list of keys are available as settings in any `.cowl.yml` file:
+A `.cowlignore` may contain Ruby regex patterns of files and/or folders to exclude from scanning, one pattern per line.
 
-## `max_width`
+## `.cowlrc.yml`
 
-`max_width` may be an integer (e.g. `80`), or `unlimited`.
+Samples:
+
+* [cowl/.cowlrc.yml](https://github.com/mcandre/cowl/blob/master/.cowlrc.yml)
+* [unwrapped-books/.cowlrc.yml](https://github.com/mcandre/cowl/blob/master/examples/unwrapped-books/.cowlrc.yml)
+
+`.cowlrc.yml` may contain a number of keys:
+
+* `max_width` may be an integer (e.g. `80`), or `unlimited`.
 
 # Built-in defaults
 
