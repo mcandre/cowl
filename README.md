@@ -16,6 +16,7 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 
 * Recursive file search by default
 * Optional ignore patterns
+* Configuration via per-project and per-user dotfiles
 * Install via a standard programming language package manager
 
 # EXAMPLE
@@ -28,6 +29,9 @@ $ wc -L examples/hello.bf
 106 examples/hello.bf
 
 $ cowl -w 106 examples/
+$
+
+$ cowl -i .bf examples/
 $
 ```
 
