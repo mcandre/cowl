@@ -50,6 +50,10 @@ Install via [RubyGems](http://rubygems.org/):
 $ gem install cowl
 ```
 
+# CONFIGURE
+
+See [CONFIGURATION.md](https://github.com/mcandre/cowl/blob/master/CONFIGURATION.md) for details.
+
 # LICENSE
 
 FreeBSD

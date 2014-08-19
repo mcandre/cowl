@@ -3,8 +3,6 @@ require 'ptools'
 
 require 'version'
 
-DEFAULT_MAX_WIDTH = 80
-
 DEFAULT_IGNORES = %w(
   .hg/
   .svn/
@@ -23,6 +21,14 @@ DEFAULT_IGNORES = %w(
   .min.js
   -min.js
 )
+
+DEFAULT_MAX_WIDTH = 80
+
+UNLIMITED = 'unlimited'
+
+DEFAULT_CONFIGURATION = {
+  "max_width" => DEFAULT_MAX_WIDTH
+}
 
 #
 # Parse, model, and print a line too wide for its own good
@@ -58,12 +64,16 @@ def self.recursive_list(directory, ignores = DEFAULT_IGNORES)
   end
 end
 
-def self.check(filename, width = DEFAULT_MAX_WIDTH)
-  output = `grep -n \'^.\\{#{width + 1},\\}$\' \"#{filename}\"`
+def self.check(filename, configuration = DEFAULT_CONFIGURATION)
+  max_width = configuration["max_width"]
 
-  lines = output.split("\n")
+  if max_width != UNLIMITED
+    output = `grep -n \'^.\\{#{max_width.to_i + 1},\\}$\' \"#{filename}\"`
 
-  widenings = lines.map { |line| Widening.parse(filename, line) }
+    lines = output.split("\n")
 
-  widenings.each { |m| puts m }
+    widenings = lines.map { |line| Widening.parse(filename, line) }
+
+    widenings.each { |m| puts m }
+  end
 end

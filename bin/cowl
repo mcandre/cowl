@@ -1,32 +1,29 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
 require 'find'
 require 'optparse'
-
-require 'rubygems'
+require 'yaml'
 require 'cowl'
+
+CONFIGURATION_FILENAME = '.cowl.yml'
 
 def main
   ignores = DEFAULT_IGNORES
 
   filenames = ['.']
 
-  max_width = DEFAULT_MAX_WIDTH
+  configuration_flags = {}
 
   option = OptionParser.new do |option|
-    option.banner = 'Usage: cowl [options] [<files>]'
+    option.banner = "Usage: cowl [options] [<files>]"
 
     option.on('-i', '--ignore pattern', 'Ignore file names matching Ruby regex pattern') do |pattern|
       ignores << pattern
     end
 
-    option.on('-w=', '--max-width', 'Maximum column width (default: 80 characters). Must be non-negative.') do |width|
-      max_width = width.to_i
-
-      if max_width <= 0 then
-        puts option
-        exit
-      end
+    option.on('-w=', '--max-width', "Maximum column width, either an integer or \"unlimited\". Default: 80") do |max_width|
+      configuration_flags["max_width"] = max_width
     end
 
     option.on('-h', '--help', 'Print usage info') do
@@ -54,16 +51,38 @@ def main
     end
   end
 
-  recursive_filenames.each { |f| check(f, max_width) }
+  configuration_dotfile = DEFAULT_CONFIGURATION
+
+  recursive_filenames.each { |f|
+    dir = File.expand_path("..", f)
+
+    parent_of_home = File.expand_path("..", ENV["HOME"])
+
+    while dir != parent_of_home
+      config_file = dir + File::SEPARATOR + CONFIGURATION_FILENAME
+
+      if File.exist?(config_file) then
+        configuration_dotfile = YAML.load_file(config_file)
+        break
+      else
+        dir = File.expand_path("..", dir)
+      end
+    end
+
+    # Command line flags override dotfile settings
+    configuration = configuration_dotfile.merge(configuration_flags)
+
+    check(f, configuration)
+  }
 end
 
 begin
   main
-# User may quit enlint before completion.
+# User may quit before completion.
 rescue Interrupt
   nil
-# enlint may be piped to another program (e.g. `less`),
-# which is quit before enlint completes.
+# This program may be piped to another program (e.g. `less`),
+# which is quit before this program completes.
 rescue Errno::EPIPE, Errno::EMFILE
   nil
 end
