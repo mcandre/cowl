@@ -60,7 +60,12 @@ def self.recursive_list(directory, ignores = DEFAULT_IGNORES)
   Find.find(directory).reject do |f|
     File.directory?(f) ||
     ignores.any? { |ignore| f =~ %r(#{ignore}) } ||
-    File.binary?(f)
+
+    begin
+      File.binary?(f)
+    rescue Errno::ENOENT
+      true
+    end
   end
 end
 
