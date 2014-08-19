@@ -28,7 +28,7 @@ Cowl automatically applies any `.cowl.yml` configuration files in the same direc
 Samples:
 
 * [cowl/.cowl.yml](https://github.com/mcandre/cowl/blob/master/.cowl.yml)
-* [unwrapped-books/.cowl.yml](https://github.com/mcandre/cowl/blob/master/examples/unwrapped-bookx/.cowl.yml)
+* [unwrapped-books/.cowl.yml](https://github.com/mcandre/cowl/blob/master/examples/unwrapped-books/.cowl.yml)
 
 The following (very short) list of keys are available as settings in any `.cowl.yml` file:
 
