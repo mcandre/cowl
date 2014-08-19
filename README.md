@@ -16,7 +16,7 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 
 * Recursive file search by default
 * Optional ignore patterns
-* Configuration via per-project and per-user [dotfiles](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md#Dotfiles)
+* Configuration via per-project and per-user [dotfiles](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md#dotfiles)
 * Install via a standard programming language package manager
 
 # EXAMPLE
