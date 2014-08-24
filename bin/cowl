@@ -33,7 +33,7 @@ def main
     end
 
     option.on('-v', '--version', 'Print version info') do
-      puts "enlint #{Cowl::VERSION}"
+      puts "cowl #{Cowl::VERSION}"
       exit
     end
   end
@@ -70,7 +70,7 @@ def main
         config_file = dir + File::SEPARATOR + CONFIGURATION_FILENAME
 
         if File.exist?(config_file) then
-          configuration_dotfile = YAML.load_file(config_file)
+          configuration_dotfile = DEFAULT_CONFIGURATION.merge(YAML.load_file(config_file))
           break
         else
           dir = File.expand_path("..", dir)
@@ -119,12 +119,15 @@ def main
           config_file = dir + File::SEPARATOR + CONFIGURATION_FILENAME
 
           if File.exist?(config_file) then
-            configuration_dotfile = YAML.load_file(config_file)
+            configuration_dotfile = DEFAULT_CONFIGURATION.merge(YAML.load_file(config_file))
             break
           else
             dir = File.expand_path("..", dir)
           end
         end
+
+        # Hack to Reset configuration when changing directories
+        configuration_dotfile = DEFAULT_CONFIGURATION unless File.exist?(dir + File::SEPARATOR + CONFIGURATION_FILENAME)
 
         # Command line flags override dotfile settings
         configuration = configuration_dotfile.merge(configuration_flags)
