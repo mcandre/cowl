@@ -12,12 +12,12 @@ CONFIGURATION_FILENAME = '.cowlrc.yml'
 def main
   ignores = DEFAULT_IGNORES
 
-  filenames = ['.']
+  filenames = ['-']
 
   configuration_flags = {}
 
   option = OptionParser.new do |option|
-    option.banner = "Usage: cowl [options] [<files>]"
+    option.banner = "Usage: cowl [options] [<files>|-]"
 
     option.on('-i', '--ignore pattern', 'Ignore file names matching Ruby regex pattern') do |pattern|
       ignores << pattern
@@ -42,20 +42,12 @@ def main
 
   filenames = ARGV unless ARGV.empty?
 
-  recursive_filenames = []
+  if filenames.empty? || filenames == ['-'] then
+    configuration_dotfile = DEFAULT_CONFIGURATION
 
-  filenames.each do |f|
-    if File.directory? f
-      recursive_filenames = recursive_filenames.concat(recursive_list(f, ignores))
-    else
-      recursive_filenames << f
-    end
-  end
+    pwd = Dir.pwd
 
-  configuration_dotfile = DEFAULT_CONFIGURATION
-
-  recursive_filenames.each do |f|
-    dir = File.expand_path("..", f)
+    dir = pwd
 
     parent_of_home = File.expand_path("..", ENV["HOME"])
 
@@ -69,8 +61,8 @@ def main
       dir = File.expand_path("..", dir)
     end
 
-    if ignores.none? { |ignore| f =~ %r(#{ignore}) } then
-      dir = File.expand_path("..", f)
+    if ignores.none? { |ignore| pwd =~ %r(#{ignore}) } then
+      dir = Dir.pwd
 
       parent_of_home = File.expand_path("..", ENV["HOME"])
 
@@ -88,7 +80,57 @@ def main
       # Command line flags override dotfile settings
       configuration = configuration_dotfile.merge(configuration_flags)
 
-      check(f, configuration)
+      check_stdin(configuration)
+    end
+  else
+    recursive_filenames = []
+
+    filenames.each do |f|
+      if File.directory? f
+        recursive_filenames = recursive_filenames.concat(recursive_list(f, ignores))
+      else
+        recursive_filenames << f
+      end
+    end
+
+    configuration_dotfile = DEFAULT_CONFIGURATION
+
+    recursive_filenames.each do |f|
+      dir = File.expand_path("..", f)
+
+      parent_of_home = File.expand_path("..", ENV["HOME"])
+
+      while dir != parent_of_home
+        ignore_file = dir + File::SEPARATOR + IGNORE_FILENAME
+
+        if File.exist?(ignore_file) then
+          ignores.concat(open(ignore_file).read.split("\n"))
+        end
+
+        dir = File.expand_path("..", dir)
+      end
+
+      if ignores.none? { |ignore| f =~ %r(#{ignore}) } then
+        dir = File.expand_path("..", f)
+
+        parent_of_home = File.expand_path("..", ENV["HOME"])
+
+        while dir != parent_of_home
+          config_file = dir + File::SEPARATOR + CONFIGURATION_FILENAME
+
+          if File.exist?(config_file) then
+            configuration_dotfile = YAML.load_file(config_file)
+            break
+          else
+            dir = File.expand_path("..", dir)
+          end
+        end
+
+        # Command line flags override dotfile settings
+        configuration = configuration_dotfile.merge(configuration_flags)
+
+        check(f, configuration)
+      end
     end
   end
 end

@@ -25,6 +25,9 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 $ cowl examples/
 examples/hello.bf:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
 
+$ cat examples/hello.bf | cowl
+stdin:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
+
 $ wc -L examples/hello.bf
 106 examples/hello.bf
 
@@ -33,6 +36,13 @@ $
 
 $ cowl -i .bf examples/
 $
+
+$ cowl -h
+Usage: cowl [options] [<files>|-]
+    -i, --ignore pattern             Ignore file names matching Ruby regex pattern
+    -w, --max-width=                 Maximum column width, either an integer or "unlimited". Default: 80
+    -h, --help                       Print usage info
+    -v, --version                    Print version info
 ```
 
 # REQUIREMENTS
