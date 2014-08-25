@@ -13,6 +13,7 @@ DEFAULT_IGNORES = %w(
   .git
   .gitignore
   node_modules/
+  bower_components/
   .vagrant/
   Gemfile.lock
   .exe
@@ -86,7 +87,7 @@ def self.check_stdin(configuration = DEFAULT_CONFIGURATION)
   if max_width != UNLIMITED
     output = `grep -n \'^.\\{#{max_width.to_i + 1},\\}$\' \"#{filename}\"`
 
-    lines = output.split("\n")
+    lines = output.split("\n").reject { |line| line =~ /^Binary file/ }
 
     widenings = lines.map { |line| Widening.parse('stdin', line) }
 
@@ -100,7 +101,7 @@ def self.check(filename, configuration = DEFAULT_CONFIGURATION)
   if max_width != UNLIMITED
     output = `grep -n \'^.\\{#{max_width.to_i + 1},\\}$\' \"#{filename}\"`
 
-    lines = output.split("\n")
+    lines = output.split("\n").reject { |line| line =~ /^Binary file/ }
 
     widenings = lines.map { |line| Widening.parse(filename, line) }
 
