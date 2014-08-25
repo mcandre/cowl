@@ -35,7 +35,7 @@ DEFAULT_MAX_WIDTH = 80
 UNLIMITED = 'unlimited'
 
 DEFAULT_CONFIGURATION = {
-  "max_width" => DEFAULT_MAX_WIDTH
+  'max_width' => DEFAULT_MAX_WIDTH
 }
 
 #
@@ -67,7 +67,7 @@ end
 def self.recursive_list(directory, ignores = DEFAULT_IGNORES)
   Find.find(directory).reject do |f|
     File.directory?(f) ||
-    ignores.any? { |ignore| f =~ %r(#{ignore}) } ||
+    ignores.any? { |ignore| f =~ /#{ignore}/ } ||
 
     begin
       File.binary?(f)
@@ -78,7 +78,7 @@ def self.recursive_list(directory, ignores = DEFAULT_IGNORES)
 end
 
 def self.check_stdin(configuration = DEFAULT_CONFIGURATION)
-  max_width = configuration["max_width"]
+  max_width = configuration['max_width']
 
   contents = $stdin.read
 
@@ -100,7 +100,7 @@ def self.check_stdin(configuration = DEFAULT_CONFIGURATION)
 end
 
 def self.check(filename, configuration = DEFAULT_CONFIGURATION)
-  max_width = configuration["max_width"]
+  max_width = configuration['max_width']
 
   if max_width != UNLIMITED
     output = `grep -n \'^.\\{#{max_width.to_i + 1},\\}$\' \"#{filename}\"`
