@@ -20,6 +20,8 @@ DEFAULT_IGNORES = %w(
   \.exe
   \.bin
   \.app
+  \.xcodeproj/
+  \.dSYM/
   \.png
   \.jpg
   \.jpeg
