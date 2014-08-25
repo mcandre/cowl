@@ -7,22 +7,24 @@ $stdout.sync = true
 require 'version'
 
 DEFAULT_IGNORES = %w(
-  .hg/
-  .svn/
-  .git/
-  .git
-  .gitignore
+  tmp/
+  \.hg/
+  \.svn/
+  \.git/
+  \.git
+  \.gitignore
   node_modules/
   bower_components/
-  .vagrant/
+  \.vagrant/
   Gemfile.lock
-  .exe
-  .bin
-  .png
-  .jpg
-  .jpeg
-  .svg
-  .min.js
+  \.exe
+  \.bin
+  \.app
+  \.png
+  \.jpg
+  \.jpeg
+  \.svg
+  \.min.js
   -min.js
 )
 

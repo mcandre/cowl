@@ -18,7 +18,12 @@ end
 
 task :ruby => [] do
   begin
-    sh 'for f in **/*.rb; do ruby -wc $f 2>&1 | grep -v "Syntax OK" | grep -v openssl | grep -v rubygems; done'
+    sh 'find . -name \'*.rb\' -exec \
+ruby -wc {} \; | \
+grep -v "Syntax OK" | \
+grep -v openssl | \
+grep -v rubygems; \
+done'
   rescue
   end
 end
@@ -51,7 +56,16 @@ task :tailor => [] do
   sh 'bundle exec tailor'
 end
 
-task :lint => [:ruby, :reek, :flay, :roodi, :cane, :excellent, :rubocop, :tailor] do
+task :lint => [
+  :ruby,
+  :reek,
+  :flay,
+  :roodi,
+  :cane,
+  :excellent,
+  :rubocop,
+  :tailor
+] do
 end
 
 task :flog => [] do
