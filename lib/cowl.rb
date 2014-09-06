@@ -18,12 +18,17 @@ DEFAULT_IGNORES = %w(
   Gemfile.lock
   \.exe
   \.bin
+  \.dmg
   \.app
   \.xcodeproj/
   \.lproj/
   \.xcassets/
   \.dSYM/
   \.class
+  \.zip
+  \.jar
+  \.war
+  \.xpi
   \.jad
   \.cmo
   \.cmi
@@ -32,6 +37,7 @@ DEFAULT_IGNORES = %w(
   \.jpg
   \.jpeg
   \.tiff
+  \.ico
   \.svg
   \.dot
   \.wav
