@@ -32,8 +32,8 @@ DEFAULT_IGNORES = %w(
   \.svg
   \.dot
   \.wav
-  \.min.js
-  -min.js
+  \.min\.
+  -min\.
 )
 
 DEFAULT_MAX_WIDTH = 80
