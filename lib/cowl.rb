@@ -21,12 +21,16 @@ DEFAULT_IGNORES = %w(
   \.app
   \.xcodeproj/
   \.dSYM/
+  \.class
+  \.cmo
+  \.cmi
   \.png
   \.gif
   \.jpg
   \.jpeg
   \.tiff
   \.svg
+  \.dot
   \.wav
   \.min.js
   -min.js
