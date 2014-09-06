@@ -11,7 +11,6 @@ DEFAULT_IGNORES = %w(
   \.hg/
   \.svn/
   \.git/
-  \.git
   \.gitignore
   node_modules/
   bower_components/
@@ -23,8 +22,10 @@ DEFAULT_IGNORES = %w(
   \.xcodeproj/
   \.dSYM/
   \.png
+  \.gif
   \.jpg
   \.jpeg
+  \.tiff
   \.svg
   \.min.js
   -min.js
