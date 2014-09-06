@@ -23,6 +23,7 @@ DEFAULT_IGNORES = %w(
   \.xcodeproj/
   \.lproj/
   \.xcassets/
+  \.pmdoc/
   \.dSYM/
   \.class
   \.zip
