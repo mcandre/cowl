@@ -14,8 +14,8 @@ Cowl is a command line program for identifying text lines that are considered to
 
 cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/software/grep/) backend, presenting a frontend similar to modern linters like [Reek](https://github.com/troessner/reek/wiki) and [JSHint](http://jshint.com/).
 
-* Recursive file search by default
-* Optional ignore patterns
+* Recursive file scanning, like `jshint .`
+* Optional ignore patterns, like `.gitignore`
 * Configuration via per-project and per-user [dotfiles](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md#dotfiles)
 * Install via a standard programming language package manager
 
@@ -28,18 +28,18 @@ examples/hello.bf:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++
 $ cat examples/hello.bf | cowl
 stdin:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
 
-$ wc -L examples/hello.bf
-106 examples/hello.bf
+$ wc -c examples/hello.bf 
+     158 examples/hello.bf
 
-$ cowl -w 106 examples/
+$ cowl -w 160 examples/hello.bf
 $
 
-$ cowl -i .bf examples/
+$ cowl -i '*.bf' examples/
 $
 
 $ cowl -h
 Usage: cowl [options] [<files>|-]
-    -i, --ignore pattern             Ignore file names matching Ruby regex pattern
+    -i, --ignore pattern             Ignore file patterns (fnmatch)
     -w, --max-width=                 Maximum column width, either an integer or "unlimited". Default: 80
     -h, --help                       Print usage info
     -v, --version                    Print version info

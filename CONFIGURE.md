@@ -15,7 +15,7 @@ Run `cowl -h` or `cowl --help` for a full list, or refer to the source code for 
 ```
 $ cowl -h
 Usage: cowl [options] [<files>]
-    -i, --ignore pattern             Ignore file names matching Ruby regex pattern
+    -i, --ignore pattern             Ignore file patterns (fnmatch)
     -w, --max-width=                 Maximum column width, either an integer or "unlimited". Default: 80
     -h, --help                       Print usage info
     -v, --version                    Print version info

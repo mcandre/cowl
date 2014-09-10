@@ -2,8 +2,8 @@ Given(/^the program has finished$/) do
   # Test files are generated using iconv.
   @cucumber = `cowl examples/`
   @cucumber_stdin = `cat examples/hello.bf | cowl`
-  @cucumber_ignore_bf = `cowl -i .bf examples/`
-  @cucumber_wider = `cowl -w 106 examples/`
+  @cucumber_ignore_bf = `cowl -i '*.bf' examples/`
+  @cucumber_wider = `cowl -w 160 examples/hello.bf`
   @cucumber_unwrapped = `cowl -w unlimited examples/`
 end
 
@@ -20,8 +20,7 @@ Then(/^the output is correct for each test$/) do
   expect(cucumber_ignore_bf_lines.length).to eq(0)
 
   cucumber_wider_lines = @cucumber_wider.split("\n")
-  expect(cucumber_wider_lines.length).to eq(17)
-  cucumber_wider_lines.each { |line| expect(line).to match(%r(^examples/unwrapped-books/romeo-and-juliet.txt\:[0-9]+\:.+$)) }
+  expect(cucumber_wider_lines.length).to eq(0)
 
   cucumber_unwrapped_lines = @cucumber_unwrapped.split("\n")
   expect(cucumber_unwrapped_lines.length).to eq(0)

@@ -2,55 +2,52 @@ require 'rubygems'
 require 'ptools'
 require 'tempfile'
 
-$stdout.sync = true
-
 require 'version'
 
 DEFAULT_IGNORES = %w(
   tmp/
-  \.hg/
-  \.svn/
-  \.git/
-  \.gitignore
+  .hg/
+  .svn/
+  .git/
+  .gitignore
   node_modules/
   bower_components/
   target/
   dist/
-  \.vagrant/
+  .vagrant/
   Gemfile.lock
-  \.exe
-  \.bin
-  \.apk
-  \.ap_
+  *.exe
+  *.bin
+  *.apk
+  *.ap_
   res/
-  \.dmg
-  \.pkg
-  \.app
-  \.xcodeproj/
-  \.lproj/
-  \.xcassets/
-  \.pmdoc/
-  \.dSYM/
-  \.class
-  \.zip
-  \.jar
-  \.war
-  \.xpi
-  \.jad
-  \.cmo
-  \.cmi
-  \.png
-  \.gif
-  \.jpg
-  \.jpeg
-  \.tiff
-  \.ico
-  \.svg
-  \.dot
-  \.wav
-  \.mp3
-  \.min\.
-  -min\.
+  *.dmg
+  *.pkg
+  *.app
+  *.xcodeproj/
+  *.lproj/
+  *.xcassets/
+  *.pmdoc/
+  *.dSYM/
+  *.class
+  *.zip
+  *.jar
+  *.war
+  *.xpi
+  *.jad
+  *.cmo
+  *.cmi
+  *.png
+  *.gif
+  *.jpg
+  *.jpeg
+  *.tiff
+  *.ico
+  *.svg
+  *.dot
+  *.wav
+  *.mp3
+  *[.-]min.*
 )
 
 DEFAULT_MAX_WIDTH = 80
@@ -87,25 +84,19 @@ class Widening
   end
 end
 
-def self.recursive_list(directory, ignores = DEFAULT_IGNORES)
-  Find.find(directory).reject do |f|
-    File.directory?(f) ||
-    ignores.any? { |ignore| f =~ /#{ignore}/ } ||
-
-    begin
-      File.binary?(f)
-    rescue Errno::ENOENT
-      true
+def self.check_stdin(configuration = nil)
+  configuration =
+    if configuration.nil?
+      DEFAULT_CONFIGURATION
+    else
+      configuration
     end
-  end
-end
 
-def self.check_stdin(configuration = DEFAULT_CONFIGURATION)
   max_width = configuration['max_width']
 
   contents = $stdin.read
 
-  t = Tempfile.new('aspelllint')
+  t = Tempfile.new('cowl')
   t.write(contents)
   t.close
 
@@ -122,7 +113,14 @@ def self.check_stdin(configuration = DEFAULT_CONFIGURATION)
   end
 end
 
-def self.check(filename, configuration = DEFAULT_CONFIGURATION)
+def self.check(filename, configuration = nil)
+  configuration =
+    if configuration.nil?
+      DEFAULT_CONFIGURATION
+    else
+      configuration
+    end
+
   max_width = configuration['max_width']
 
   if max_width != UNLIMITED
