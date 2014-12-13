@@ -1,25 +1,8 @@
 # cowl - column width linter
 
-# HOMEPAGE
+`cowl` helps you keep your source code / text in a terminal-friendly 80-column width.
 
-https://github.com/mcandre/cowl
-
-# RUBYGEMS
-
-https://rubygems.org/gems/cowl
-
-# ABOUT
-
-Cowl is a command line program for identifying text lines that are considered too long, wider than the conventional column width `80` or so.
-
-cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/software/grep/) backend, presenting a frontend similar to modern linters like [Reek](https://github.com/troessner/reek/wiki) and [JSHint](http://jshint.com/).
-
-* Recursive file scanning, like `jshint .`
-* Optional ignore patterns, like `.gitignore`
-* Configuration via per-project and per-user [dotfiles](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md#dotfiles)
-* Install via a standard programming language package manager
-
-# EXAMPLE
+# EXAMPLES
 
 ```
 $ cowl examples/
@@ -44,6 +27,25 @@ Usage: cowl [options] [<files>|-]
     -h, --help                       Print usage info
     -v, --version                    Print version info
 ```
+
+# HOMEPAGE
+
+https://github.com/mcandre/cowl
+
+# RUBYGEMS
+
+https://rubygems.org/gems/cowl
+
+# ABOUT
+
+Cowl is a command line program for identifying text lines that are considered too long, wider than the conventional column width `80` or so.
+
+cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/software/grep/) backend, presenting a frontend similar to modern linters like [Reek](https://github.com/troessner/reek/wiki) and [JSHint](http://jshint.com/).
+
+* Recursive file scanning, like `jshint .`
+* Optional ignore patterns, like `.gitignore`
+* Configuration via per-project and per-user [dotfiles](https://github.com/mcandre/cowl/blob/master/CONFIGURE.md#dotfiles)
+* Install via a standard programming language package manager
 
 # REQUIREMENTS
 
