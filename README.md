@@ -11,7 +11,7 @@ examples/hello.bf:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++
 $ cat examples/hello.bf | cowl
 stdin:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
 
-$ wc -c examples/hello.bf 
+$ wc -c examples/hello.bf
      158 examples/hello.bf
 
 $ cowl -w 160 examples/hello.bf
