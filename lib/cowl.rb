@@ -81,6 +81,22 @@ class Widening
   def to_s
     "#{filename}:#{line_number}:#{line}"
   end
+
+  def to_finding
+    {
+        :failure => true,
+        :rule => 'Too long line found',
+        :description => "Observed long line: #{line}",
+        :categories => [
+            'Style'
+        ],
+        :location => {
+            :path => "#{filename}",
+            :beginLine => "#{line_number}",
+        },
+    }
+  end
+
 end
 
 def self.check_stdin(configuration = nil)
@@ -92,6 +108,7 @@ def self.check_stdin(configuration = nil)
     end
 
   max_width = configuration['max_width']
+  is_stat = configuration['is_stat']
 
   contents = $stdin.read
 
@@ -108,7 +125,13 @@ def self.check_stdin(configuration = nil)
 
     widenings = lines.map { |line| Widening.parse('stdin', line) }
 
-    widenings.each { |m| puts m }
+    if is_stat
+      widenings.each { |finding|
+        yield finding.to_finding
+      }
+    else
+      widenings.each { |m| puts m }
+    end
   end
 end
 
@@ -121,7 +144,7 @@ def self.check(filename, configuration = nil)
     end
 
   max_width = configuration['max_width']
-
+  is_stat = configuration['is_stat']
   if max_width != UNLIMITED
     output = `grep -n \'^.\\{#{max_width.to_i + 1},\\}$\' \"#{filename}\"`
 
@@ -129,6 +152,12 @@ def self.check(filename, configuration = nil)
 
     widenings = lines.map { |line| Widening.parse(filename, line) }
 
-    widenings.each { |m| puts m }
+    if is_stat
+      widenings.each { |finding|
+        yield finding.to_finding
+      }
+    else
+      widenings.each { |m| puts m }
+    end
   end
 end
