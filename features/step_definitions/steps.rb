@@ -5,6 +5,8 @@ Given(/^the program has finished$/) do
   @cucumber_ignore_bf = `cowl -i '*.bf' examples/`
   @cucumber_wider = `cowl -w 160 examples/hello.bf`
   @cucumber_unwrapped = `cowl -w unlimited examples/`
+  @cucumber_stat = `cowl -s examples/`
+  @cucumber_stat_unwrapped = `cowl -s -w unlimited examples/`
 end
 
 Then(/^the output is correct for each test$/) do
@@ -24,4 +26,24 @@ Then(/^the output is correct for each test$/) do
 
   cucumber_unwrapped_lines = @cucumber_unwrapped.split("\n")
   expect(cucumber_unwrapped_lines.length).to eq(0)
+
+  lines_stat = @cucumber_stat
+  expect(valid_json?(lines_stat)).to eq(true)
+
+  json = JSON.parse(lines_stat)
+  expect(json['findings'].length).to eq(1)
+  expect(json['findings'][0]['location']['path']).to match('examples/hello.bf')
+
+  lines_stat_unwrapped = @cucumber_stat_unwrapped
+  expect(lines_stat_unwrapped.length).to eq(0)
+
+end
+
+def valid_json?(json)
+  begin
+    JSON.parse(json)
+    return true
+  rescue JSON::ParserError => e
+    return false
+  end
 end
