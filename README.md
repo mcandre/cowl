@@ -49,14 +49,14 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 
 # REQUIREMENTS
 
-* [Ruby](https://www.ruby-lang.org/) 2.3+
-* [grep](http://www.gnu.org/software/grep/) (often built-in, or provided by [git](http://git-scm.com/))
-
-E.g., Windows users can `chocolatey install git`.
+* [ruby](https://www.ruby-lang.org/) 2.3+
+* [grep](http://www.gnu.org/software/grep/)
 
 ## Optional
 
 * [wc](http://linux.die.net/man/1/wc) can help determine the longest line in a file
+* [pargs](https://github.com/mcandre/pargs)
+* [editorconfig-tools](https://www.npmjs.com/package/editorconfig-tools)
 
 # INSTALL
 
