@@ -24,6 +24,7 @@ $ cowl -h
 Usage: cowl [options] [<files>|-]
     -i, --ignore pattern             Ignore file patterns (fnmatch)
     -w, --max-width=                 Maximum column width, either an integer or "unlimited". Default: 80
+    -s, --stat                       Output in STAT
     -h, --help                       Print usage info
     -v, --version                    Print version info
 ```

@@ -83,18 +83,12 @@ class Widening
   end
 
   def to_finding
-    {
-        :failure => true,
-        :rule => 'Too long line found',
-        :description => "Observed long line: #{line}",
-        :categories => [
-            'Style'
-        ],
-        :location => {
-            :path => "#{filename}",
-            :beginLine => "#{line_number}",
-        },
-    }
+    finding = StatModule::Finding.new(true, 'Too long line found', "Observed long line: #{line}")
+    finding.categories = ['Style']
+    location = StatModule::Location.new(@filename.to_s)
+    location.begin_line = line_number.to_i
+    finding.location = location
+    finding
   end
 
 end
