@@ -56,7 +56,6 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 ## Optional
 
 * [wc](http://linux.die.net/man/1/wc) can help determine the longest line in a file
-* [make](https://www.gnu.org/software/make/)
 * [GNU findutils](https://www.gnu.org/software/findutils/)
 * [stank](https://github.com/mcandre/stank) (e.g. `go get github.com/mcandre/stank/...`)
 * [Python](https://www.python.org) 3+ (for yamllint)
