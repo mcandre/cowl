@@ -1,0 +1,8 @@
+# Most text files
+[*]
+charset = utf-8
+max_line_length = none
+trim_trailing_whitespace = false
+insert_final_newline = none
+indent_style = none
+indent_size = none

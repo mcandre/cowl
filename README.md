@@ -4,7 +4,7 @@
 
 # EXAMPLES
 
-```
+```console
 $ cowl examples/
 examples/hello.bf:3:++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.
 
@@ -56,14 +56,17 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 ## Optional
 
 * [wc](http://linux.die.net/man/1/wc) can help determine the longest line in a file
-* [pargs](https://github.com/mcandre/pargs)
-* [editorconfig-tools](https://www.npmjs.com/package/editorconfig-tools)
+* [make](https://www.gnu.org/software/make/)
+* [GNU findutils](https://www.gnu.org/software/findutils/)
+* [stank](https://github.com/mcandre/stank) (e.g. `go get github.com/mcandre/stank/...`)
+* [Python](https://www.python.org) 3+ (for yamllint)
+* [Node.js](https://nodejs.org/en/) (for eclint)
 
 # INSTALL
 
 Install via [RubyGems](http://rubygems.org/):
 
-```
+```console
 $ gem install cowl
 ```
 
@@ -81,7 +84,7 @@ FreeBSD
 
 Keep the interface working:
 
-```
+```console
 $ cucumber
 ```
 
@@ -89,7 +92,7 @@ $ cucumber
 
 Keep the code tidy:
 
-```
+```console
 $ rake lint
 ```
 

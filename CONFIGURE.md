@@ -12,7 +12,7 @@ Any command-line flags that are present override the same settings in dotfiles a
 
 Run `cowl -h` or `cowl --help` for a full list, or refer to the source code for `bin/cowl`.
 
-```
+```console
 $ cowl -h
 Usage: cowl [options] [<files>]
     -i, --ignore pattern             Ignore file patterns (fnmatch)

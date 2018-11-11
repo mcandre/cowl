@@ -10,102 +10,102 @@ require 'json'
 require 'stat'
 
 def main
-  ignores = DEFAULT_IGNORES
+    ignores = DEFAULT_IGNORES
 
-  configuration_flags = {}
+    configuration_flags = {}
 
-  option = OptionParser.new do |option|
-    option.banner = "Usage: cowl [options] [<files>|-]"
+    option = OptionParser.new do |option|
+        option.banner = "Usage: cowl [options] [<files>|-]"
 
-    option.on('-i', '--ignore pattern', 'Ignore file patterns (fnmatch)') do |pattern|
-      ignores << pattern
+        option.on('-i', '--ignore pattern', 'Ignore file patterns (fnmatch)') do |pattern|
+            ignores << pattern
+        end
+
+        option.on('-w=', '--max-width', "Maximum column width, either an integer or \"unlimited\". Default: 80") do |max_width|
+            configuration_flags['max_width'] = max_width
+        end
+
+        option.on('-s', '--stat', 'Output in STAT') do
+            configuration_flags['is_stat'] = true
+        end
+
+        option.on('-h', '--help', 'Print usage info') do
+            puts option
+            exit
+        end
+
+        option.on('-v', '--version', 'Print version info') do
+            puts "cowl #{Cowl::VERSION}"
+            exit
+        end
     end
 
-    option.on('-w=', '--max-width', "Maximum column width, either an integer or \"unlimited\". Default: 80") do |max_width|
-      configuration_flags['max_width'] = max_width
-    end
+    option.parse!
 
-    option.on('-s', '--stat', 'Output in STAT') do
-      configuration_flags['is_stat'] = true
-    end
-
-    option.on('-h', '--help', 'Print usage info') do
-      puts option
-      exit
-    end
-
-    option.on('-v', '--version', 'Print version info') do
-      puts "cowl #{Cowl::VERSION}"
-      exit
-    end
-  end
-
-  option.parse!
-
-  filenames =
+    filenames =
     if ARGV == []
-      ['-']
+        ['-']
     else
-      ARGV
+        ARGV
     end
 
-  dotsmack = Dotsmack::Smacker.new(
-    dotignore = '.cowlignore',
-    additional_ignores = ignores,
-    dotconfig = '.cowlrc.yml'
-  )
-  findings = []
-  dotsmack.enumerate(filenames).each do |filename, config|
-    config =
-      if config.nil?
-        configuration_flags
-      else
-        YAML.load(config).merge(configuration_flags)
-      end
+    dotsmack = Dotsmack::Smacker.new(
+        dotignore = '.cowlignore',
+        additional_ignores = ignores,
+        dotconfig = '.cowlrc.yml'
+    )
+    findings = []
+    dotsmack.enumerate(filenames).each do |filename, config|
+        config =
+        if config.nil?
+            configuration_flags
+        else
+            YAML.load(config).merge(configuration_flags)
+        end
 
-    if configuration_flags['is_stat']
-      if filename == '-'
-        check_stdin(config) { |finding|
-          findings.push(finding)
-        }
-      else
-        check(filename, config) { |finding|
-          findings.push(finding)
-        }
-      end
-    else
-      if filename == '-'
-        check_stdin(config)
-      else
-        check(filename, config)
-      end
+        if configuration_flags['is_stat']
+            if filename == '-'
+                check_stdin(config) { |finding|
+                    findings.push(finding)
+                }
+            else
+                check(filename, config) { |finding|
+                    findings.push(finding)
+                }
+            end
+        else
+            if filename == '-'
+                check_stdin(config)
+            else
+                check(filename, config)
+            end
+        end
     end
-  end
 
-  if configuration_flags['is_stat'] && findings.length > 0
-      process = StatModule::Process.new('Cowl')
-      process.version = "#{Cowl::VERSION}"
-      process.description = 'Helps you keep your source code / text in a terminal-friendly 80-column width.'
-      process.maintainer = 'Andrew Pennebaker'
-      process.email = 'andrew.pennebaker@gmail.com'
-      process.website = 'https://github.com/mcandre/cowl'
-      process.repeatability = 'Associative'
-      stat = StatModule::Stat.new(process)
-      stat.findings = findings
-      puts stat.to_json
-  end
+    if configuration_flags['is_stat'] && findings.length > 0
+        process = StatModule::Process.new('Cowl')
+        process.version = "#{Cowl::VERSION}"
+        process.description = 'Helps you keep your source code / text in a terminal-friendly 80-column width.'
+        process.maintainer = 'Andrew Pennebaker'
+        process.email = 'andrew.pennebaker@gmail.com'
+        process.website = 'https://github.com/mcandre/cowl'
+        process.repeatability = 'Associative'
+        stat = StatModule::Stat.new(process)
+        stat.findings = findings
+        puts stat.to_json
+    end
 end
 
 begin
-  main
-# User may quit before completion.
+    main
+    # User may quit before completion.
 rescue Interrupt
-  nil
-# Bad regex
+    nil
+    # Bad regex
 rescue RegexpError => e
-  puts e
-# This program may be piped to another program (e.g. `less`),
-# which is quit before this program completes.
+    puts e
+    # This program may be piped to another program (e.g. `less`),
+    # which is quit before this program completes.
 rescue Errno::EPIPE, Errno::EMFILE
-  nil
+    nil
 end
