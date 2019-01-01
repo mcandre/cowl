@@ -26,24 +26,4 @@ Then(/^the output is correct for each test$/) do
 
     cucumber_unwrapped_lines = @cucumber_unwrapped.split("\n")
     expect(cucumber_unwrapped_lines.length).to eq(0)
-
-    lines_stat = @cucumber_stat
-    expect(valid_json?(lines_stat)).to eq(true)
-
-    json = JSON.parse(lines_stat)
-    expect(json['findings'].length).to eq(1)
-    expect(json['findings'][0]['location']['path']).to match('examples/hello.bf')
-
-    lines_stat_unwrapped = @cucumber_stat_unwrapped
-    expect(lines_stat_unwrapped.length).to eq(0)
-
-end
-
-def valid_json?(json)
-    begin
-        JSON.parse(json)
-        return true
-    rescue JSON::ParserError => e
-        return false
-    end
 end

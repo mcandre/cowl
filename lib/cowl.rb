@@ -81,16 +81,6 @@ class Widening
     def to_s
         "#{filename}:#{line_number}:#{line}"
     end
-
-    def to_finding
-        finding = StatModule::Finding.new(true, 'Too long line found', "Observed long line: #{line}")
-        finding.categories = ['Style']
-        location = StatModule::Location.new(@filename.to_s)
-        location.begin_line = line_number.to_i
-        finding.location = location
-        finding
-    end
-
 end
 
 def self.check_stdin(configuration = nil)
@@ -146,12 +136,6 @@ def self.check(filename, configuration = nil)
 
         widenings = lines.map { |line| Widening.parse(filename, line) }
 
-        if is_stat
-            widenings.each { |finding|
-                yield finding.to_finding
-            }
-        else
-            widenings.each { |m| puts m }
-        end
+        widenings.each { |m| puts m }
     end
 end

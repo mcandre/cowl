@@ -7,7 +7,6 @@ require 'dotsmack'
 require 'yaml'
 require 'cowl'
 require 'json'
-require 'stat'
 
 def main
     ignores = DEFAULT_IGNORES
@@ -63,36 +62,11 @@ def main
             YAML.load(config).merge(configuration_flags)
         end
 
-        if configuration_flags['is_stat']
-            if filename == '-'
-                check_stdin(config) { |finding|
-                    findings.push(finding)
-                }
-            else
-                check(filename, config) { |finding|
-                    findings.push(finding)
-                }
-            end
+        if filename == '-'
+            check_stdin(config)
         else
-            if filename == '-'
-                check_stdin(config)
-            else
-                check(filename, config)
-            end
+            check(filename, config)
         end
-    end
-
-    if configuration_flags['is_stat'] && findings.length > 0
-        process = StatModule::Process.new('Cowl')
-        process.version = "#{Cowl::VERSION}"
-        process.description = 'Helps you keep your source code / text in a terminal-friendly 80-column width.'
-        process.maintainer = 'Andrew Pennebaker'
-        process.email = 'andrew.pennebaker@gmail.com'
-        process.website = 'https://github.com/mcandre/cowl'
-        process.repeatability = 'Associative'
-        stat = StatModule::Stat.new(process)
-        stat.findings = findings
-        puts stat.to_json
     end
 end
 
