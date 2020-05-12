@@ -50,7 +50,7 @@ cowl is a shell wrapper around the traditional GNU [grep](http://www.gnu.org/sof
 
 # REQUIREMENTS
 
-* [ruby](https://www.ruby-lang.org/) 2.3+
+* [ruby](https://www.ruby-lang.org/) 2.7+
 * [grep](http://www.gnu.org/software/grep/)
 
 ## Optional
